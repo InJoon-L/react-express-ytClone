@@ -44,12 +44,25 @@ router.post('/uploadfiles', (req, res) => {
     })
 })
 
+router.get('/getVideos', (req, res) => {
+    // 비디오를 DB에서 가져와서 클라이언트에 보낸다.
+
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if(err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos})
+        })
+    
+})
+
 router.post('/uploadVideo', (req, res) => {
     // 비디오 정보들을 저장한다.
     const video = new Video(req.body)
 
     video.save((err, doc) => {
         if(err) return res.json({ success: false, err })
+        console.log(video);
         res.status(200).json({ success: true })
     })
     
@@ -90,7 +103,7 @@ router.post('/thumbnail', (req, res) => {
         folder: 'uploads/thumbnails',
         size: '320x240',
         //확장자를 제외한 이름
-        filename: 'thumbanil_%b.png'
+        filename: 'thumbnail_%b.png'
     })    
 })
 

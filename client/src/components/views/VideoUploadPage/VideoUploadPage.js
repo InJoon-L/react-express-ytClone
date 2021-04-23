@@ -3,7 +3,7 @@ import { Typography, Button, Form, message, Input, Icon, Select } from 'antd'
 import Dropzone from 'react-dropzone'
 import Axios from 'axios'
 import { useSelector } from 'react-redux'
-import { response } from 'express'
+
 
 const { TextArea } = Input
 const { Title } = Typography
@@ -71,7 +71,7 @@ function VideoUploadPage(props) {
                 Axios.post('/api/video/thumbnail', variable).then(response => {
                     if(response.data.success) {
                         console.log(response.data)
-                        setDuration(response.data.fileDuartion)
+                        setDuration(response.data.fileDuration)
                         setThumbnailPath(response.data.url)
                     } else {
                         alert('썸네일 생성에 실패 했습니다.')
@@ -94,8 +94,10 @@ function VideoUploadPage(props) {
             filePath: FilePath,
             category: Category,
             duration: Duration,
-            thumbanil: ThumbnailPath,
+            thumbnail: ThumbnailPath,
         }
+
+        console.log(variables)
 
         Axios.post('/api/video/uploadVideo', variables)
         .then(response => {
