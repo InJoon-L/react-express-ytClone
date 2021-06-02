@@ -5,22 +5,24 @@ import moment from 'moment';
 
 const { Title } = Typography;
 const { Meta } = Card; 
-function LandingPage() {
+function SubscriptionPage() {
 
-    const [Video, setVideo] = useState([])
+    const [Videos, setVideos] = useState([])
+    
+    let variable = { userFrom: localStorage.getItem('userId') }
+
     useEffect(() => {
-        
-        Axios.get('/api/video/getVideos')
+        Axios.post('/api/video/getSubscriptionVideos', variable)
         .then(response => {
             if(response.data.success) {
                 console.log(response.data);
-                setVideo(response.data.videos)
+                setVideos(response.data.videos)
             } else {
                 alert('비디오 가져오기를 실패했습니다.')
             }
         })
     }, [])
-    const renderCards = Video.map((video, index) => {
+    const renderCards = Videos.map((video, index) => {
         
         var minutes = Math.floor(video.duration / 60);
         var seconds = Math.floor((video.duration - minutes * 60));
@@ -57,4 +59,4 @@ function LandingPage() {
     )
 }
 
-export default LandingPage
+export default SubscriptionPage
